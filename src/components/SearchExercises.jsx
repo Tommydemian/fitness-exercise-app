@@ -1,21 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { useFetch } from '../hooks/useFetch';
-
-import { Box, Stack, Button, TextField, Typography } from '@mui/material'
+import { 
+  Box,
+  Stack,
+  Button,
+  TextField,
+  Typography
+  } from '@mui/material'
 import HorizontalScrollbar from './HorizontalScrollbar';
 
 const SearchExercises = () => {
 
-    const [search, setSearch] = useState('');
-    const [exercises, setExercises] = useState([]);
-    
-    const {data, isLoading, refetchData} = useFetch('exercises', '/exercises')
-    const {data:bodyPartsData, isLoading:bodyPartsIsLoading, refetchData:refetchBodyPartsData} = useFetch('filters', '/exercises/bodyPartList')
+  // State for search input and exercises rendered.
+  const [search, setSearch] = useState('');
+  const [exercises, setExercises] = useState([]);
+  const [selectedBodyPart, setSelectedBodyPart] = useState(null);
 
+    // Custom hooks to fetch exercise and body part data.
+    const {
+      data: exerciseData,
+      isLoading: exercisesLoading,
+      refetchData
+    } = useFetch('exercises', '/exercises')
+    
+      const {
+        data: bodyPartsData,
+        isLoading: bodyPartsIsLoading,
+        refetchData: refetchBodyPartsData
+      } = useFetch('filters', '/exercises/bodyPartList')
+
+    // Event handler for search button
     const handleSearch = () => {
         console.log(data)
         refetchData()
-
+        
         const searchedExercises = data.filter(exercise => {
             exercise.bodyPart.includes(search) || 
             exercise.name.includes(search) ||
@@ -29,7 +47,7 @@ const SearchExercises = () => {
 
       useEffect(() =>{
         if (bodyPartsData) {
-          console.log(bodyPartsData + 'bodyParts');
+          setSelectedBodyPart(bodyPartsData[0]);
         }
       }, [bodyPartsData])
 
@@ -37,7 +55,7 @@ const SearchExercises = () => {
         refetchBodyPartsData();
       }, [])
     
-
+  // JSX return 
   return (
     <Stack
     alignItems="center"
@@ -90,7 +108,11 @@ const SearchExercises = () => {
         width: '100%',
         p: '20px'
       }}>
-        { bodyPartsData && <HorizontalScrollbar data={bodyPartsData} />}
+        { bodyPartsData && <HorizontalScrollbar 
+        data={bodyPartsData}
+        selectedBodyPart={selectedBodyPart}
+        setSelectedBodyPart={setSelectedBodyPart} 
+        />}
       </Box>
     </Stack>
   )

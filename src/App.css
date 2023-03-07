@@ -106,6 +106,17 @@ body {
   text-decoration: none;
 }
 
+.arrow-icon {
+  width: 4em;
+  height: 4em;
+}
+.arrow-button {
+  border: none;
+  cursor: pointer;
+  outline: none;
+  background: none;
+}
+
 @media screen and (max-width:1200px) {
   .detail-image {
     width: 300px;
