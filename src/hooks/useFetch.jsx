@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
+const apikey = import.meta.env.VITE_X_RAPID_API_KEY
+
 const headers = {
   'X-RapidAPI-Key': apikey,
   'X-RapidAPI-Host': 'exercisedb.p.rapidapi.com'

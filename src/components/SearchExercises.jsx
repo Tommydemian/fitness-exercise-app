@@ -2,14 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useFetch } from '../hooks/useFetch';
 
 import { Box, Stack, Button, TextField, Typography } from '@mui/material'
-
+import HorizontalScrollbar from './HorizontalScrollbar';
 
 const SearchExercises = () => {
 
     const [search, setSearch] = useState('');
     const [exercises, setExercises] = useState([]);
     
-    const {data, isLoading, refetchData} = useFetch('bodyparts', '/exercises')
+    const {data, isLoading, refetchData} = useFetch('exercises', '/exercises')
+    const {data:bodyPartsData, isLoading:bodyPartsIsLoading, refetchData:refetchBodyPartsData} = useFetch('filters', '/exercises/bodyPartList')
 
     const handleSearch = () => {
         console.log(data)
@@ -25,6 +26,16 @@ const SearchExercises = () => {
         setSearch('')
         setExercises(searchedExercises)
       }
+
+      useEffect(() =>{
+        if (bodyPartsData) {
+          console.log(bodyPartsData + 'bodyParts');
+        }
+      }, [bodyPartsData])
+
+      useEffect(() =>{
+        refetchBodyPartsData();
+      }, [])
     
 
   return (
@@ -74,8 +85,13 @@ const SearchExercises = () => {
         </Button>
 
       </Box>
-        
-
+      <Box sx={{
+        position: 'relative', 
+        width: '100%',
+        p: '20px'
+      }}>
+        { bodyPartsData && <HorizontalScrollbar data={bodyPartsData} />}
+      </Box>
     </Stack>
   )
 }
