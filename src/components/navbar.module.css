@@ -1,0 +1,15 @@
+.img {
+    width: 3em;
+    height: 3em;
+    margin: 1em 0;
+}
+.home-link {
+    text-decoration: none;
+    color: #3A1212;
+    border-bottom: 1px solid #FF2625
+}
+.exercise-link {
+   text-decoration: none;
+   color: #3A1212
+}
+
